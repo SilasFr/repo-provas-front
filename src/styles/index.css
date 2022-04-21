@@ -7,6 +7,12 @@
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  background-color: #fff;
 }
 
 code {
