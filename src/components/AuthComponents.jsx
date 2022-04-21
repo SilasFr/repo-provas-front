@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { TextField, Button } from "@mui/material";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+// import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { Link } from "react-router-dom";
 
 export function AuthForm() {

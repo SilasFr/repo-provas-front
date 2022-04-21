@@ -5,18 +5,45 @@ import {
   GithubButton,
   Container,
   ConfirmButton,
-  SeePassword,
   Redirect,
   Interface,
 } from "../../components/AuthComponents";
 import { Logo } from "../../components/Logo";
+import Swal from "sweetalert2";
+import api from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 export function SignUp() {
-  const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
 
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (formData.password !== formData.passwordConfirmation) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops ...",
+        text: "Your passwords don't match",
+      });
+    }
+
+    const { email, password } = formData;
+    const promise = api.postSignUp(email, password);
+    promise.then((response) => {
+      console.log(response.data);
+      navigate("/");
+    });
+
+    promise.catch((error) => {
+      console.log(error.response);
+    });
+  }
+
   return (
     <Container>
       <Logo />
@@ -24,7 +51,7 @@ export function SignUp() {
         <h2>Cadastro</h2>
         <GithubButton variant="contained">ENTRAR COM O GITHUB</GithubButton>
         <p>ou</p>
-        <Form action="">
+        <Form onSubmit={handleSubmit}>
           <Inputs
             type="email"
             name="email"
@@ -32,9 +59,7 @@ export function SignUp() {
             value={formData.email || ""}
             onChange={handleInputChange}
             required
-          >
-            <SeePassword />
-          </Inputs>
+          ></Inputs>
           <Inputs
             type="password"
             name="password"
@@ -51,13 +76,15 @@ export function SignUp() {
             onChange={handleInputChange}
             required
           />
+          <Interface>
+            <Redirect to={"/"}>
+              <p>Já possuo cadastro</p>
+            </Redirect>
+            <ConfirmButton type="submit" variant="contained">
+              CADASTRAR
+            </ConfirmButton>
+          </Interface>
         </Form>
-        <Interface>
-          <Redirect to={"/"}>
-            <p>Já possuo cadastro</p>
-          </Redirect>
-          <ConfirmButton variant="contained">CADASTRAR</ConfirmButton>
-        </Interface>
       </main>
     </Container>
   );

@@ -1,0 +1,12 @@
+import axios from "axios";
+
+const BASE_URL = "http://localhost:5000";
+
+async function postSignUp(email, password) {
+  const body = { email, password };
+  return axios.post(`${BASE_URL}/sign-up`, body);
+}
+
+const api = { postSignUp };
+
+export default api;
