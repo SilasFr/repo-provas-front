@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { TextField } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 const Container = styled.div`
@@ -32,10 +32,31 @@ const SearchContainer = styled.div`
   margin: 50px 0 0 0;
 `;
 
-const SearchBar = styled(TextField)``;
+const SearchBar = styled(TextField)`
+  width: 464px;
+`;
 
 const LogoutIcon = styled(LogoutRoundedIcon)`
   width: 50px;
 `;
 
-export { Container, IconsContainer, SearchContainer, SearchBar, LogoutIcon };
+const TabsContainer = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 150px;
+`;
+
+const Tab = styled(Button)``;
+
+export {
+  Container,
+  IconsContainer,
+  SearchContainer,
+  SearchBar,
+  LogoutIcon,
+  TabsContainer,
+  Tab,
+};

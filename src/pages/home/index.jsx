@@ -1,5 +1,13 @@
+import { Feed } from "./feed";
 import { Header } from "./header";
+import { Tabs } from "./tabs";
 
 export function Home() {
-  return <Header />;
+  return (
+    <>
+      <Header />
+      <Tabs />
+      <Feed />
+    </>
+  );
 }
