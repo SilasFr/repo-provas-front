@@ -12,6 +12,11 @@ async function postSignIn(email, password) {
   return axios.post(`${BASE_URL}/sign-in`, body);
 }
 
-const api = { postSignUp, postSignIn };
+async function validateSession(token) {
+  const body = { token };
+  return axios.get(`${BASE_URL}/session`, body);
+}
+
+const api = { postSignUp, postSignIn, validateSession };
 
 export default api;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Form,
@@ -10,13 +10,30 @@ import {
   Interface,
 } from "../../components/AuthComponents";
 import { Logo } from "../../components/Logo";
+import UserContext from "../../contexts/userContext";
 // import Swal from "sweetalert2";
 import api from "../../services/api";
 
 export function SignIn() {
+  const { userData, login } = useContext(UserContext);
   const [formData, setFormData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userData && userData.token) {
+      const promise = api.validateSession(userData.token);
+      promise.then((response) => {
+        console.log(response.data);
+        navigate("/home");
+      });
+      promise.catch((error) => {
+        console.log(error.response);
+        login({});
+        navigate("/");
+      });
+    }
+  }, [userData.token]);
 
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,8 +46,13 @@ export function SignIn() {
     const { email, password } = formData;
     const promise = api.postSignIn(email, password);
     promise.then((response) => {
-      setIsLoading(false);
       console.log(response.data);
+
+      const token = response.data;
+      setIsLoading(false);
+      login({
+        token,
+      });
       navigate("/");
     });
 
