@@ -1,3 +1,5 @@
+import { Header } from "./header";
+
 export function Home() {
-  return <h1>HOME</h1>;
+  return <Header />;
 }

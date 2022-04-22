@@ -2,6 +2,14 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:5000";
 
+function createConfig(token) {
+  return {
+    headers: {
+      Authorization: token,
+    },
+  };
+}
+
 async function postSignUp(email, password) {
   const body = { email, password };
   return axios.post(`${BASE_URL}/sign-up`, body);
@@ -13,8 +21,8 @@ async function postSignIn(email, password) {
 }
 
 async function validateSession(token) {
-  const body = { token };
-  return axios.get(`${BASE_URL}/session`, body);
+  const config = createConfig();
+  return axios.get(`${BASE_URL}/session`, config);
 }
 
 const api = { postSignUp, postSignIn, validateSession };

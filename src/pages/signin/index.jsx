@@ -11,7 +11,7 @@ import {
 } from "../../components/AuthComponents";
 import { Logo } from "../../components/Logo";
 import UserContext from "../../contexts/userContext";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import api from "../../services/api";
 
 export function SignIn() {
@@ -33,7 +33,7 @@ export function SignIn() {
         navigate("/");
       });
     }
-  }, [userData.token]);
+  }, []);
 
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,19 +46,21 @@ export function SignIn() {
     const { email, password } = formData;
     const promise = api.postSignIn(email, password);
     promise.then((response) => {
-      console.log(response.data);
-
       const token = response.data;
       setIsLoading(false);
       login({
         token,
       });
-      navigate("/");
+      navigate("/home");
     });
 
     promise.catch((error) => {
       setIsLoading(false);
-      console.log(error.response);
+      Swal.fire({
+        icon: "error",
+        title: error.response.status,
+        text: error.response.statusText,
+      });
     });
   }
 
@@ -99,7 +101,7 @@ export function SignIn() {
               disabled={isLoading}
               variant="contained"
             >
-              CADASTRAR
+              ENTRAR
             </ConfirmButton>
           </Interface>
         </Form>
