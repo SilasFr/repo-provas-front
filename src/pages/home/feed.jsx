@@ -1,10 +1,9 @@
 import { useContext } from "react";
-import {
-  DisciplineAccordion,
-  TeacherAccordion,
-} from "../../components/accordionComponents";
+import { DisciplineAccordion } from "../../components/accordions/disciplineAccordion.jsx";
+import { TeacherAccordion } from "../../components/accordions/teacherAccordion.jsx";
 import { FeedContainer } from "../../components/feedComponents";
 import TabContext from "../../contexts/tabContext";
+import { v4 as uuid } from "uuid";
 
 export function Feed() {
   const { tab } = useContext(TabContext);
@@ -17,10 +16,13 @@ export function Feed() {
     <FeedContainer>
       {tab.title === "disciplinas"
         ? tab.data.map((terms) => (
-            <DisciplineAccordion data={terms}></DisciplineAccordion>
+            <DisciplineAccordion
+              data={terms}
+              key={uuid()}
+            ></DisciplineAccordion>
           ))
         : tab.data.map((teachers) => (
-            <TeacherAccordion data={teachers}></TeacherAccordion>
+            <TeacherAccordion data={teachers} key={uuid()}></TeacherAccordion>
           ))}
     </FeedContainer>
   );
