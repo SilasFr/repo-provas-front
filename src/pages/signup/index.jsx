@@ -35,12 +35,11 @@ export function SignUp() {
     const { email, password } = formData;
     const promise = api.postSignUp(email, password);
     promise.then((response) => {
-      console.log(response.data);
       navigate("/");
     });
 
     promise.catch((error) => {
-      console.log(error.response);
+      alert(error.response);
     });
   }
 

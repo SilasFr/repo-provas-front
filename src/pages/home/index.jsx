@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import TabContext from "../../contexts/tabContext";
 import UserContext from "../../contexts/userContext";
 import api from "../../services/api";
@@ -9,6 +10,7 @@ import { Tabs } from "./tabs";
 export function Home() {
   const { userData } = useContext(UserContext);
   const { tab, setTab } = useContext(TabContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let query = "";
@@ -23,7 +25,8 @@ export function Home() {
       setTab({ ...tab, data: response.data });
     });
     promise.catch((error) => {
-      console.log("error: ", error.response);
+      alert("error: ", error.response);
+      navigate("/");
     });
   }, [tab.title]);
   return (

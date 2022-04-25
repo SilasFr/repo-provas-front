@@ -24,11 +24,10 @@ export function SignIn() {
     if (userData && userData.token) {
       const promise = api.validateSession(userData.token);
       promise.then((response) => {
-        console.log(response.data);
         navigate("/home");
       });
       promise.catch((error) => {
-        console.log(error.response);
+        alert(error.response);
         login({});
         navigate("/");
       });
@@ -42,26 +41,23 @@ export function SignIn() {
   async function handleSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-
-    const { email, password } = formData;
-    const promise = api.postSignIn(email, password);
-    promise.then((response) => {
-      const token = response.data;
+    try {
+      const { email, password } = formData;
+      const { data: response } = await api.postSignIn(email, password);
+      const token = response;
       setIsLoading(false);
       login({
         token,
       });
       navigate("/home");
-    });
-
-    promise.catch((error) => {
+    } catch (error) {
       setIsLoading(false);
       Swal.fire({
         icon: "error",
         title: error.response.status,
         text: error.response.statusText,
       });
-    });
+    }
   }
 
   return (
@@ -93,7 +89,7 @@ export function SignIn() {
             required
           />
           <Interface>
-            <Redirect to={"/"}>
+            <Redirect to={"/sign-up"}>
               <p>Não possuo cadastro</p>
             </Redirect>
             <ConfirmButton
