@@ -1,44 +1,22 @@
+import { useContext } from "react";
 import SimpleAccordion, {
   FeedContainer,
 } from "../../components/feedComponents";
+import TabContext from "../../contexts/tabContext";
 
 export function Feed() {
-  const example2 = [
-    { "10 Período": ["CSS", "HTML", "JavaScript"] },
-    { "20 Período": ["CSS3", "HTML5", "JavaScript mais poderoso"] },
-    { "30 Período": ["Sass", "React"] },
-    { "40 Período": ["CSS", "HTML", "JavaScript"] },
-    { "50 Período": ["CSS", "HTML", "JavaScript"] },
-    { "60 Período": ["CSS", "HTML", "JavaScript"] },
-  ];
+  const { tab } = useContext(TabContext);
+  const list = tab.data;
+
+  console.log(list);
+  if (!tab.data) {
+    return <h1>Carregando</h1>;
+  }
   return (
     <FeedContainer>
-      {example2.map((term) => SimpleAccordion(term))}
+      {list.map((terms) => (
+        <SimpleAccordion data={terms}></SimpleAccordion>
+      ))}
     </FeedContainer>
   );
 }
-
-// const teste = (
-//   <FeedUl>
-//     {example2.map((term) => {
-//       const [termTitle] = Object.keys(term);
-//       const [subjects] = Object.values(term);
-
-//       return (
-//         <FeedItem key={uuid()}>
-//           <p>{termTitle}</p>
-//           <ul>
-//             {subjects.map((subject) => {
-//               console.log("matéria: ", subject);
-//               return (
-//                 <li>
-//                   <p>{subject}</p>
-//                 </li>
-//               );
-//             })}
-//           </ul>
-//         </FeedItem>
-//       );
-//     })}
-//   </FeedUl>
-// );

@@ -25,6 +25,11 @@ async function validateSession(token) {
   return axios.get(`${BASE_URL}/session`, config);
 }
 
-const api = { postSignUp, postSignIn, validateSession };
+async function getTests(token, query) {
+  const config = createConfig(token);
+  return axios.get(`${BASE_URL}/tests?${query}`, config);
+}
+
+const api = { postSignUp, postSignIn, validateSession, getTests };
 
 export default api;
