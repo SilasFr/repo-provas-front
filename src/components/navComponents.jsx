@@ -38,6 +38,7 @@ const SearchBar = styled(TextField)`
 
 const LogoutIcon = styled(LogoutRoundedIcon)`
   width: 50px;
+  cursor: pointer;
 `;
 
 const TabsContainer = styled.div`

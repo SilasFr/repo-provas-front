@@ -15,4 +15,5 @@ const LogoComponent = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+  cursor: pointer;
 `;

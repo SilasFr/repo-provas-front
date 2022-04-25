@@ -23,12 +23,6 @@ export function Tabs() {
         >
           pessoa instrutora
         </Tab>
-        <Tab
-          variant={tab.title === "adicionar" ? "contained" : "outlined"}
-          onClick={handleChangeTab}
-        >
-          adicionar
-        </Tab>
       </TabsContainer>
     </Container>
   );
