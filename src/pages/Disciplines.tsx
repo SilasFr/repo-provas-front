@@ -5,9 +5,7 @@ import {
   AccordionSummary,
   Box,
   Button,
-  Divider,
   Link,
-  TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -20,6 +18,7 @@ import api, {
   Test,
   TestByDiscipline,
 } from "../services/api";
+import { SearchBar } from "./SearchBar";
 
 function Disciplines() {
   const navigate = useNavigate();
@@ -41,11 +40,7 @@ function Disciplines() {
 
   return (
     <>
-      <TextField
-        sx={{ marginX: "auto", marginBottom: "25px", width: "450px" }}
-        label="Pesquise por disciplina"
-      />
-      <Divider sx={{ marginBottom: "35px" }} />
+      <SearchBar label={"disciplina"} />
       <Box
         sx={{
           marginX: "auto",
@@ -154,12 +149,14 @@ function Categories({ categories, teachersDisciplines }: CategoriesProps) {
     <>
       {categories
         .filter(doesCategoryHaveTests(teachersDisciplines))
-        .map((category) => (
-          <Box key={category.id}>
-            <Typography fontWeight="bold">{category.name}</Typography>
-            <TeachersDisciplines teachersDisciplines={teachersDisciplines} />
-          </Box>
-        ))}
+        .map((category) => {
+          return (
+            <Box key={category.id}>
+              <Typography fontWeight="bold">{category.name}</Typography>
+              <TeachersDisciplines teachersDisciplines={teachersDisciplines} />
+            </Box>
+          );
+        })}
     </>
   );
 }
@@ -201,16 +198,20 @@ function Tests({ testsWithTeachers: testsWithDisciplines }: TestsProps) {
   return (
     <>
       {testsWithDisciplines.map((testsWithDisciplines) =>
-        testsWithDisciplines.tests.map((test) => (
-          <Typography key={test.id} color="#878787">
-            <Link
-              href={test.pdfUrl}
-              target="_blank"
-              underline="none"
-              color="inherit"
-            >{`${test.name} (${testsWithDisciplines.teacherName})`}</Link>
-          </Typography>
-        ))
+        testsWithDisciplines.tests.map((test) => {
+          if (test.category.id) {
+          }
+          return (
+            <Typography key={test.id} color="#878787">
+              <Link
+                href={test.pdfUrl}
+                target="_blank"
+                underline="none"
+                color="inherit"
+              >{`${test.name} (${testsWithDisciplines.teacherName})`}</Link>
+            </Typography>
+          );
+        })
       )}
     </>
   );

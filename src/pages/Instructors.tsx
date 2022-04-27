@@ -5,9 +5,7 @@ import {
   AccordionSummary,
   Box,
   Button,
-  Divider,
   Link,
-  TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -19,6 +17,7 @@ import api, {
   Test,
   TestByTeacher,
 } from "../services/api";
+import { SearchBar } from "./SearchBar";
 
 function Instructors() {
   const navigate = useNavigate();
@@ -42,11 +41,7 @@ function Instructors() {
 
   return (
     <>
-      <TextField
-        sx={{ marginX: "auto", marginBottom: "25px", width: "450px" }}
-        label="Pesquise por pessoa instrutora"
-      />
-      <Divider sx={{ marginBottom: "35px" }} />
+      <SearchBar label={"pessoa instrutora"} />
       <Box
         sx={{
           marginX: "auto",
