@@ -6,6 +6,7 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  TextField,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { AxiosError } from "axios";
@@ -74,8 +75,8 @@ export function SearchBar({
   return (
     <Box sx={{ margin: "0 auto" }}>
       <FormControl sx={styles.input} variant="outlined">
-        <InputLabel htmlFor={"name"}>{`Pesquisar por ${label}`}</InputLabel>
-        <OutlinedInput
+        <TextField
+          label={`Pesquisar por ${label}`}
           sx={{ marginX: "auto", marginBottom: "25px", width: "450px" }}
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
@@ -84,17 +85,19 @@ export function SearchBar({
               handleSubmit(e);
             }
           }}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleSubmit}
-                edge="end"
-              >
-                <SearchOutlined />
-              </IconButton>
-            </InputAdornment>
-          }
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleSubmit}
+                  edge="end"
+                >
+                  <SearchOutlined />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
       </FormControl>
       <Divider sx={{ marginBottom: "35px" }} />
