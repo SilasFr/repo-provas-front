@@ -5,7 +5,9 @@ import {
   AccordionSummary,
   Box,
   Button,
+  Divider,
   Link,
+  TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -40,7 +42,7 @@ function Disciplines() {
 
   return (
     <>
-      <SearchBar label={"disciplina"} />
+      <SearchBar lablel="disciplinas" />
       <Box
         sx={{
           marginX: "auto",
@@ -149,59 +151,68 @@ function Categories({ categories, teachersDisciplines }: CategoriesProps) {
     <>
       {categories
         .filter(doesCategoryHaveTests(teachersDisciplines))
-        .map((category) => {
-          return (
-            <Box key={category.id}>
-              <Typography fontWeight="bold">{category.name}</Typography>
-              <TeachersDisciplines teachersDisciplines={teachersDisciplines} />
-            </Box>
-          );
-        })}
+        .map((category) => (
+          <Box key={category.id}>
+            <Typography fontWeight="bold">{category.name}</Typography>
+            <TeachersDisciplines
+              categoryId={category.id}
+              teachersDisciplines={teachersDisciplines}
+            />
+          </Box>
+        ))}
     </>
   );
 }
 
 interface TeacherDisciplineProps {
   teachersDisciplines: TeacherDisciplines[];
+  categoryId: number;
 }
 
 function doesCategoryHaveTests(teachersDisciplines: TeacherDisciplines[]) {
   return (category: Category) =>
     teachersDisciplines.filter((teacherDiscipline) =>
-      testOfThisCategory(teacherDiscipline, category)
+      someTestOfCategory(teacherDiscipline.tests, category.id)
     ).length > 0;
 }
 
-function testOfThisCategory(
-  teacherDiscipline: TeacherDisciplines,
-  category: Category
-) {
-  return teacherDiscipline.tests.some(
-    (test) => test.category.id === category.id
-  );
+function someTestOfCategory(tests: Test[], categoryId: number) {
+  return tests.some((test) => test.category.id === categoryId);
 }
 
-function TeachersDisciplines({ teachersDisciplines }: TeacherDisciplineProps) {
+function testOfCategory(test: Test, categoryId: number) {
+  return test.category.id === categoryId;
+}
+
+function TeachersDisciplines({
+  categoryId,
+  teachersDisciplines,
+}: TeacherDisciplineProps) {
   const testsWithDisciplines = teachersDisciplines.map((teacherDiscipline) => ({
     tests: teacherDiscipline.tests,
     teacherName: teacherDiscipline.teacher.name,
   }));
 
-  return <Tests testsWithTeachers={testsWithDisciplines} />;
+  return (
+    <Tests categoryId={categoryId} testsWithTeachers={testsWithDisciplines} />
+  );
 }
 
 interface TestsProps {
   testsWithTeachers: { tests: Test[]; teacherName: string }[];
+  categoryId: number;
 }
 
-function Tests({ testsWithTeachers: testsWithDisciplines }: TestsProps) {
+function Tests({
+  categoryId,
+  testsWithTeachers: testsWithDisciplines,
+}: TestsProps) {
   return (
     <>
       {testsWithDisciplines.map((testsWithDisciplines) =>
-        testsWithDisciplines.tests.map((test) => {
-          if (test.category.id) {
-          }
-          return (
+        testsWithDisciplines.tests
+          .filter((test) => testOfCategory(test, categoryId))
+          .map((test) => (
             <Typography key={test.id} color="#878787">
               <Link
                 href={test.pdfUrl}
@@ -210,8 +221,7 @@ function Tests({ testsWithTeachers: testsWithDisciplines }: TestsProps) {
                 color="inherit"
               >{`${test.name} (${testsWithDisciplines.teacherName})`}</Link>
             </Typography>
-          );
-        })
+          ))
       )}
     </>
   );
