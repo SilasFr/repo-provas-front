@@ -40,7 +40,7 @@ function Disciplines() {
 
   return (
     <>
-      <SearchBar lablel="disciplinas" tab={"disciplines"} setTerms={setTerms} />
+      <SearchBar label="disciplinas" tab={"disciplines"} setTerms={setTerms} />
       <Box
         sx={{
           marginX: "auto",

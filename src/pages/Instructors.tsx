@@ -32,7 +32,6 @@ function Instructors() {
       if (!token) return;
 
       const { data: testsData } = await api.getTestsByTeacher(token);
-      console.log(testsData);
       setTeachersDisciplines(testsData.tests);
       const { data: categoriesData } = await api.getCategories(token);
       setCategories(categoriesData.categories);
@@ -123,7 +122,6 @@ function TeachersDisciplinesAccordions({
 }
 
 function getUniqueTeachers(teachersDisciplines: TestByTeacher[]) {
-  console.log("teste: ", teachersDisciplines);
   return [
     ...new Set(
       teachersDisciplines.map(
