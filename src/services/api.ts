@@ -97,6 +97,11 @@ async function getTestsByFilteredDiscipline(filter: string, token: string) {
   return baseAPI.get(`/tests?groupBy=disciplines&where=${filter}`, config);
 }
 
+async function getTestsByFilteredTeacher(filter: string, token: string) {
+  const config = getConfig(token);
+  return baseAPI.get(`/tests?groupBy=teachers&where=${filter}`, config);
+}
+
 const api = {
   signUp,
   signIn,
@@ -104,6 +109,7 @@ const api = {
   getTestsByTeacher,
   getCategories,
   getTestsByFilteredDiscipline,
+  getTestsByFilteredTeacher,
 };
 
 export default api;

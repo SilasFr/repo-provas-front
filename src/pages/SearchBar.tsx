@@ -8,7 +8,9 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { AxiosError } from "axios";
 import { useState } from "react";
+import useAlert from "../hooks/useAlert";
 import useAuth from "../hooks/useAuth";
 import api from "../services/api";
 
@@ -36,7 +38,13 @@ const styles = {
   },
 };
 
-export function SearchBar({ label }: any) {
+export function SearchBar({
+  label,
+  tab,
+  setTerms,
+  setTeachersDisciplines,
+}: any) {
+  const { setMessage } = useAlert();
   const { token } = useAuth();
   const [filter, setFilter] = useState("");
 
@@ -44,15 +52,24 @@ export function SearchBar({ label }: any) {
     e.preventDefault();
     try {
       if (!token) return;
-      const { data: result } = await api.getTestsByFilteredDiscipline(
-        filter,
-        token
-      );
-      console.log(result);
-    } catch (e) {
-      console.log(e);
+      if (tab === "disciplines") {
+        const { data: result } = await api.getTestsByFilteredDiscipline(
+          filter,
+          token
+        );
+        setTerms(result.tests);
+      }
+
+      if (tab === "teachers") {
+        const { data: result } = await api.getTestsByFilteredTeacher(
+          filter,
+          token
+        );
+        setTeachersDisciplines(result.tests);
+      }
+    } catch (e: AxiosError | any) {
+      setMessage(e);
     }
-    console.log("clicou");
   }
   return (
     <Box sx={{ margin: "0 auto" }}>
@@ -64,7 +81,7 @@ export function SearchBar({ label }: any) {
           onChange={(e) => setFilter(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              console.log("mandou");
+              handleSubmit(e);
             }
           }}
           endAdornment={

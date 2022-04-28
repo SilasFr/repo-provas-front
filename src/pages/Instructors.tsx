@@ -32,6 +32,7 @@ function Instructors() {
       if (!token) return;
 
       const { data: testsData } = await api.getTestsByTeacher(token);
+      console.log(testsData);
       setTeachersDisciplines(testsData.tests);
       const { data: categoriesData } = await api.getCategories(token);
       setCategories(categoriesData.categories);
@@ -41,7 +42,11 @@ function Instructors() {
 
   return (
     <>
-      <SearchBar label={"pessoa instrutora"} />
+      <SearchBar
+        label={"pessoa instrutora"}
+        tab={"teachers"}
+        setTeachersDisciplines={setTeachersDisciplines}
+      />
       <Box
         sx={{
           marginX: "auto",
@@ -118,6 +123,7 @@ function TeachersDisciplinesAccordions({
 }
 
 function getUniqueTeachers(teachersDisciplines: TestByTeacher[]) {
+  console.log("teste: ", teachersDisciplines);
   return [
     ...new Set(
       teachersDisciplines.map(

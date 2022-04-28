@@ -5,9 +5,7 @@ import {
   AccordionSummary,
   Box,
   Button,
-  Divider,
   Link,
-  TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -42,7 +40,7 @@ function Disciplines() {
 
   return (
     <>
-      <SearchBar lablel="disciplinas" />
+      <SearchBar lablel="disciplinas" tab={"disciplines"} setTerms={setTerms} />
       <Box
         sx={{
           marginX: "auto",
