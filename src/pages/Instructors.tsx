@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Nav from "../components/Navigation";
 import useAuth from "../hooks/useAuth";
 import api, {
   Category,
@@ -18,6 +19,7 @@ import api, {
   TestByTeacher,
 } from "../services/api";
 import { SearchBar } from "./SearchBar";
+import testsViewCounter from "./TestsViewCount";
 
 function Instructors() {
   const navigate = useNavigate();
@@ -52,30 +54,7 @@ function Instructors() {
           width: "700px",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <Button
-            variant="outlined"
-            onClick={() => navigate("/app/disciplinas")}
-          >
-            Disciplinas
-          </Button>
-          <Button
-            variant="contained"
-            onClick={() => navigate("/app/pessoas-instrutoras")}
-          >
-            Pessoa Instrutora
-          </Button>
-          <Button variant="outlined" onClick={() => navigate("/app/adicionar")}>
-            Adicionar
-          </Button>
-        </Box>
+        <Nav tab="pessoa-instrutora" />
         <TeachersDisciplinesAccordions
           categories={categories}
           teachersDisciplines={teachersDisciplines}
@@ -197,10 +176,12 @@ function Tests({ tests, disciplineName }: TestsProps) {
         <Typography key={test.id} color="#878787">
           <Link
             href={test.pdfUrl}
+            id={`${test.id}`}
             target="_blank"
             underline="none"
             color="inherit"
-          >{`${test.name} (${disciplineName})`}</Link>
+            onClick={(e) => testsViewCounter(test.id)}
+          >{`${test.name} (${disciplineName}) (${test.views})`}</Link>
         </Typography>
       ))}
     </>

@@ -58,6 +58,7 @@ export interface Test {
   id: number;
   name: string;
   pdfUrl: string;
+  views: number;
   category: Category;
 }
 
@@ -102,6 +103,10 @@ async function getTestsByFilteredTeacher(filter: string, token: string) {
   return baseAPI.get(`/tests?groupBy=teachers&where=${filter}`, config);
 }
 
+async function updateTestViews(id: string) {
+  return baseAPI.patch(`/tests/views/${id}`);
+}
+
 const api = {
   signUp,
   signIn,
@@ -110,6 +115,7 @@ const api = {
   getCategories,
   getTestsByFilteredDiscipline,
   getTestsByFilteredTeacher,
+  updateTestViews,
 };
 
 export default api;

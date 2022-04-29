@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Nav from "../components/Navigation";
 import useAuth from "../hooks/useAuth";
 import api, {
   Category,
@@ -19,6 +20,7 @@ import api, {
   TestByDiscipline,
 } from "../services/api";
 import { SearchBar } from "./SearchBar";
+import testsViewCounter from "./TestsViewCount";
 
 function Disciplines() {
   const navigate = useNavigate();
@@ -47,30 +49,7 @@ function Disciplines() {
           width: "700px",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          <Button
-            variant="contained"
-            onClick={() => navigate("/app/disciplinas")}
-          >
-            Disciplinas
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => navigate("/app/pessoas-instrutoras")}
-          >
-            Pessoa Instrutora
-          </Button>
-          <Button variant="outlined" onClick={() => navigate("/app/adicionar")}>
-            Adicionar
-          </Button>
-        </Box>
+        <Nav tab={"disciplinas"} />
         <TermsAccordions categories={categories} terms={terms} />
       </Box>
     </>
@@ -217,7 +196,8 @@ function Tests({
                 target="_blank"
                 underline="none"
                 color="inherit"
-              >{`${test.name} (${testsWithDisciplines.teacherName})`}</Link>
+                onClick={(e) => testsViewCounter(test.id)}
+              >{`${test.name} (${testsWithDisciplines.teacherName}) (${test.views})`}</Link>
             </Typography>
           ))
       )}
