@@ -1,9 +1,10 @@
 import { createContext, useState } from "react";
+import { Category, Discipline, Teacher } from "../services/api";
 
 interface TestsInfo {
-  categories: [] | null;
-  disciplines: [] | null;
-  teachers: [] | null;
+  categories: readonly Category[] | null;
+  disciplines: readonly Discipline[] | null;
+  teachers: readonly Teacher[] | null;
 }
 
 interface ITestsContext {
@@ -11,7 +12,7 @@ interface ITestsContext {
   setTestsInfo: (newTestsInfo: TestsInfo | null) => void;
 }
 
-const TestsContext = createContext<ITestsContext | null>(null);
+export const TestsContext = createContext<ITestsContext | null>(null);
 
 interface Props {
   children: React.ReactNode;

@@ -107,6 +107,16 @@ async function updateTestViews(id: string) {
   return baseAPI.patch(`/tests/views/${id}`);
 }
 
+async function getAllDisciplines(token: string) {
+  const config = getConfig(token);
+  return baseAPI.get(`/disciplines`, config);
+}
+
+async function getTeacherByDiscipline(token: string) {
+  const config = getConfig(token);
+  return baseAPI.get(`/teachers/:disciplineId`, config);
+}
+
 const api = {
   signUp,
   signIn,
@@ -116,6 +126,8 @@ const api = {
   getTestsByFilteredDiscipline,
   getTestsByFilteredTeacher,
   updateTestViews,
+  getAllDisciplines,
+  getTeacherByDiscipline,
 };
 
 export default api;

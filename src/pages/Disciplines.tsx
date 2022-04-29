@@ -10,6 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import Nav from "../components/Navigation";
 import useAuth from "../hooks/useAuth";
+import useTestsInfo from "../hooks/useTestsInfo";
 import api, {
   Category,
   Discipline,
