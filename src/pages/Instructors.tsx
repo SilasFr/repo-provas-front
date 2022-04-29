@@ -4,12 +4,10 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Link,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Nav from "../components/Navigation";
 import useAuth from "../hooks/useAuth";
 import api, {
@@ -22,7 +20,6 @@ import { SearchBar } from "./SearchBar";
 import testsViewCounter from "./TestsViewCount";
 
 function Instructors() {
-  const navigate = useNavigate();
   const { token } = useAuth();
   const [teachersDisciplines, setTeachersDisciplines] = useState<
     TestByTeacher[]
