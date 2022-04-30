@@ -10,8 +10,7 @@ import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import Nav from "../components/Navigation";
 import useAuth from "../hooks/useAuth";
-import useTestsInfo from "../hooks/useTestsInfo";
-import api from "../services/api";
+import api, { Category, Discipline, Teacher } from "../services/api";
 
 const styles = {
   container: {
@@ -50,9 +49,19 @@ interface FormData {
   teacher: string | null;
 }
 
+interface ITestsInfo {
+  categories: Category[] | null;
+  disciplines: Discipline[] | null;
+  teachers: Teacher[] | null;
+}
+
 export default function Add() {
   const { token } = useAuth();
-  const { testsInfo, setTestsInfo } = useTestsInfo();
+  const [testsInfo, setTestsInfo] = useState<ITestsInfo>({
+    categories: null,
+    disciplines: null,
+    teachers: null,
+  });
   const [formData, setFormData] = useState<FormData>({
     name: "",
     pdfUrl: "",
@@ -75,7 +84,35 @@ export default function Add() {
     }
     loadPage();
   }, [token]);
-  console.log(testsInfo);
+
+  async function handleDisciplineSelection(
+    event: any,
+    newValue: string | null
+  ) {
+    if (!token) {
+      return;
+    }
+    setFormData({ ...formData, discipline: newValue });
+
+    if (!newValue) {
+      return;
+    }
+
+    const discipline = testsInfo?.disciplines?.find(
+      (discipline: Discipline) => discipline.name === newValue
+    );
+
+    const id = discipline?.id.toString();
+
+    const { data: teachersOfThisDiscipline } = await api.getTeacherByDiscipline(
+      token,
+      id
+    );
+    setTestsInfo({
+      ...testsInfo,
+      teachers: teachersOfThisDiscipline,
+    });
+  }
 
   if (!testsInfo?.categories || !testsInfo.disciplines) {
     return <h1>Carregando</h1>;
@@ -125,38 +162,39 @@ export default function Add() {
           ></TextField>
 
           <Autocomplete
-            value={null}
+            value={formData.category}
             onChange={(event: any, newValue: string | null) => {
               setFormData({ ...formData, category: newValue });
             }}
             id="controllable-states-demo"
-            options={testsInfo?.categories.map((category) => category.name)}
+            options={testsInfo?.categories.map(
+              (category: Category) => category.name
+            )}
             renderInput={(params) => (
               <TextField {...params} label="Categoria" />
             )}
           />
           <Autocomplete
-            value={null}
-            onChange={(event: any, newValue: string | null) => {
-              setFormData({ ...formData, discipline: newValue });
-            }}
+            value={formData.discipline}
+            onChange={handleDisciplineSelection}
             id="controllable-states-demo"
             options={testsInfo?.disciplines.map(
-              (discipline) => discipline.name
+              (discipline: Discipline) => discipline.name
             )}
             renderInput={(params) => (
               <TextField {...params} label="Disciplina" />
             )}
           />
           <Autocomplete
-            value={null}
+            disabled={!testsInfo.teachers}
+            value={formData.teacher}
             onChange={(event: any, newValue: string | null) => {
               setFormData({ ...formData, teacher: newValue });
             }}
             id="controllable-states-demo"
             options={
               testsInfo.teachers
-                ? testsInfo.teachers.map((teacher) => teacher.name)
+                ? testsInfo.teachers.map((teacher: Teacher) => teacher.name)
                 : []
             }
             renderInput={(params) => (

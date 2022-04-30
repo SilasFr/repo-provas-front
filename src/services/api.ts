@@ -112,9 +112,9 @@ async function getAllDisciplines(token: string) {
   return baseAPI.get(`/disciplines`, config);
 }
 
-async function getTeacherByDiscipline(token: string) {
+async function getTeacherByDiscipline(token: string, id: string | undefined) {
   const config = getConfig(token);
-  return baseAPI.get(`/teachers/:disciplineId`, config);
+  return baseAPI.get(`/teachers/${id}`, config);
 }
 
 const api = {

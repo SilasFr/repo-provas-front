@@ -6,7 +6,6 @@ import Alert from "./components/Alert";
 import { MainApp } from "./components/MainApp";
 import { AlertProvider } from "./contexts/AlertContext";
 import { AuthProvider } from "./contexts/AuthContext";
-import { TestsProvider } from "./contexts/TestsContext";
 import Add from "./pages/AddTest";
 import Disciplines from "./pages/Disciplines";
 import Instructors from "./pages/Instructors";
@@ -26,23 +25,21 @@ function App() {
       <CssBaseline />
       <AlertProvider>
         <AuthProvider>
-          <TestsProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<SignUp />} />
-                <Route path="/login" element={<SignIn />} />
-                <Route path="app" element={<MainApp />}>
-                  <Route path="/app/disciplinas" element={<Disciplines />} />
-                  <Route
-                    path="/app/pessoas-instrutoras"
-                    element={<Instructors />}
-                  />
-                  <Route path="/app/adicionar" element={<Add />} />
-                </Route>
-              </Routes>
-            </BrowserRouter>
-            <Alert />
-          </TestsProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<SignUp />} />
+              <Route path="/login" element={<SignIn />} />
+              <Route path="app" element={<MainApp />}>
+                <Route path="/app/disciplinas" element={<Disciplines />} />
+                <Route
+                  path="/app/pessoas-instrutoras"
+                  element={<Instructors />}
+                />
+                <Route path="/app/adicionar" element={<Add />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+          <Alert />
         </AuthProvider>
       </AlertProvider>
     </ThemeProvider>
