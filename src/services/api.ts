@@ -72,6 +72,8 @@ export type TestByTeacher = TeacherDisciplines & {
   tests: Test[];
 };
 
+export type TestInsert = Partial<Test>;
+
 async function getTestsByDiscipline(token: string) {
   const config = getConfig(token);
   return baseAPI.get<{ tests: TestByDiscipline[] }>(
@@ -117,9 +119,15 @@ async function getTeacherByDiscipline(token: string, id: string | undefined) {
   return baseAPI.get(`/teachers/${id}`, config);
 }
 
+async function createTest(token: string, test: any) {
+  const config = getConfig(token);
+  return baseAPI.post(`/tests/add`, test, config);
+}
+
 const api = {
   signUp,
   signIn,
+  createTest,
   getTestsByDiscipline,
   getTestsByTeacher,
   getCategories,

@@ -7,8 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import Nav from "../components/Navigation";
+import useAlert from "../hooks/useAlert";
 import useAuth from "../hooks/useAuth";
 import api, { Category, Discipline, Teacher } from "../services/api";
 
@@ -57,6 +59,7 @@ interface ITestsInfo {
 
 export default function Add() {
   const { token } = useAuth();
+  const { setMessage } = useAlert();
   const [testsInfo, setTestsInfo] = useState<ITestsInfo>({
     categories: null,
     disciplines: null,
@@ -98,20 +101,62 @@ export default function Add() {
       return;
     }
 
-    const discipline = testsInfo?.disciplines?.find(
-      (discipline: Discipline) => discipline.name === newValue
-    );
-
-    const id = discipline?.id.toString();
+    const disciplineId = getDisciplineId(newValue);
 
     const { data: teachersOfThisDiscipline } = await api.getTeacherByDiscipline(
       token,
-      id
+      disciplineId
     );
     setTestsInfo({
       ...testsInfo,
       teachers: teachersOfThisDiscipline,
     });
+  }
+
+  async function handleSubmit(e: any) {
+    if (
+      !formData.discipline ||
+      !formData.teacher ||
+      !formData.category ||
+      !token
+    ) {
+      setMessage({
+        text: "O formulário está incompleto ou incorreto",
+        type: "error",
+      });
+      return;
+    }
+    e.preventDefault();
+
+    const categoryId = getCategoryId();
+
+    const teacherId = getTeacherId();
+
+    const disciplineId = getDisciplineId(formData.discipline);
+
+    const newTest = {
+      name: formData.name,
+      pdfUrl: formData.pdfUrl,
+      categoryId,
+      teacherId,
+      disciplineId,
+    };
+
+    try {
+      const { data: res } = await api.createTest(token, newTest);
+
+      setFormData({
+        name: "",
+        pdfUrl: "",
+        category: null,
+        discipline: null,
+        teacher: null,
+      });
+
+      setMessage({ type: "success", text: res });
+    } catch (e: any) {
+      setMessage({ type: "error", text: e?.response?.data?.toString() });
+    }
   }
 
   if (!testsInfo?.categories || !testsInfo.disciplines) {
@@ -202,9 +247,37 @@ export default function Add() {
             )}
           />
 
-          <Button variant="contained">Enviar</Button>
+          <Button onClick={handleSubmit} variant="contained" type="submit">
+            Enviar
+          </Button>
         </FormControl>
       </Box>
     </>
   );
+
+  function getTeacherId() {
+    const teacher = testsInfo.teachers?.find(
+      (teacher) => teacher.name === formData.teacher
+    );
+
+    const teacherId = teacher?.id.toString();
+    return teacherId;
+  }
+
+  function getCategoryId() {
+    const category = testsInfo.categories?.find(
+      (category) => category.name === formData.category
+    );
+    const categoryId = category?.id.toString();
+    return categoryId;
+  }
+
+  function getDisciplineId(newValue: string) {
+    const discipline = testsInfo?.disciplines?.find(
+      (discipline: Discipline) => discipline.name === newValue
+    );
+
+    const id = discipline?.id.toString();
+    return id;
+  }
 }
