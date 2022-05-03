@@ -95,7 +95,7 @@ export default function Add() {
     if (!token) {
       return;
     }
-    setFormData({ ...formData, discipline: newValue });
+    setFormData({ ...formData, discipline: newValue, teacher: null });
 
     if (!newValue) {
       return;
@@ -191,6 +191,7 @@ export default function Add() {
           variant="outlined"
         >
           <TextField
+            required
             label="Título da prova"
             type="text"
             name="name"
@@ -198,6 +199,7 @@ export default function Add() {
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           ></TextField>
           <TextField
+            required
             label="PDF da prova"
             type="url"
             name="pdfUrl"
@@ -231,7 +233,7 @@ export default function Add() {
             )}
           />
           <Autocomplete
-            disabled={!testsInfo.teachers}
+            disabled={!formData.discipline}
             value={formData.teacher}
             onChange={(event: any, newValue: string | null) => {
               setFormData({ ...formData, teacher: newValue });
