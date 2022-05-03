@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import React, { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { ReactComponent as Logo } from "../assets/logo.svg";
@@ -104,7 +104,18 @@ function SignUp() {
         <Typography sx={styles.title} variant="h4" component="h1">
           Cadastro
         </Typography>
-        <Button variant="contained" color="secondary">
+
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={async () => {
+            try {
+              await api.oauth();
+            } catch (e: any) {
+              console.dir(e);
+            }
+          }}
+        >
           Entrar com Github
         </Button>
         <Box sx={styles.dividerContainer}>

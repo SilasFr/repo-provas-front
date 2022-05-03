@@ -124,9 +124,12 @@ async function createTest(token: string, test: any) {
   return baseAPI.post(`/tests/add`, test, config);
 }
 
+async function oauth() {}
+
 const api = {
   signUp,
   signIn,
+  oauth,
   createTest,
   getTestsByDiscipline,
   getTestsByTeacher,
