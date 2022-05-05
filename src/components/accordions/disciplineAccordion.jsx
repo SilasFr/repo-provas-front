@@ -33,9 +33,40 @@ export function DisciplineAccordion({ data }) {
                   <p>{item.name}</p>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {item.tests.map((category) => {
-                    // console.log(category);
-                  })}
+                  {item.tests?.P1?.length > 0 && (
+                    <div>
+                      <h4 key={uuid()}>P1</h4>
+                      {item.tests.P1.map((test) => (
+                        <div key={uuid()}>
+                          <a href={test.pdfUrl}> {test.name} </a>{" "}
+                          <span> - {test.teacherDiscipline.teacher.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {item.tests?.P2?.length > 0 && (
+                    <div>
+                      <h4 key={uuid()}>P2</h4>
+                      {item.tests.P2.map((test) => (
+                        <div key={uuid()}>
+                          <a href={test.pdfUrl}> {test.name} </a>{" "}
+                          <span> - {test.teacherDiscipline.teacher.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {item.tests?.P3?.length > 0 && (
+                    <div>
+                      <h4 key={uuid()}>P3</h4>
+                      {item.tests.P3.map((test) => (
+                        <div key={uuid()}>
+                          <a href={test.pdfUrl}> {test.name} </a>{" "}
+                          <span> - {test.teacherDiscipline.teacher.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </AccordionDetails>
               </Accordion>
             </div>
@@ -45,38 +76,3 @@ export function DisciplineAccordion({ data }) {
     </div>
   );
 }
-
-// const test = {item.tests?.P1.length > 0 && (
-//   <div>
-//     <h4 key={uuid()}>P1</h4>
-//     {item.tests.P1.map((test) => (
-//       <div key={uuid()}>
-//         <a href={test.pdfUrl}> {test.name} </a>{" "}
-//         <span> - {test.teacherDiscipline.teacher.name}</span>
-//       </div>
-//     ))}
-//   </div>
-// )}
-// {item.tests?.P2.length > 0 && (
-//   <div>
-//     <h4 key={uuid()}>P2</h4>
-//     {item.tests.P2.map((test) => (
-//       <div key={uuid()}>
-//         <a href={test.pdfUrl}> {test.name} </a>{" "}
-//         <span> - {test.teacherDiscipline.teacher.name}</span>
-//       </div>
-//     ))}
-//   </div>
-// )}
-
-// {item.tests?.P3.length > 0 && (
-//   <div>
-//     <h4 key={uuid()}>P3</h4>
-//     {item.tests.P3.map((test) => (
-//       <div key={uuid()}>
-//         <a href={test.pdfUrl}> {test.name} </a>{" "}
-//         <span> - {test.teacherDiscipline.teacher.name}</span>
-//       </div>
-//     ))}
-//   </div>
-// )}
